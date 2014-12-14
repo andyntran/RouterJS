@@ -1,0 +1,152 @@
+@import "functions.less";
+@import "colors.less";
+/* http://paletton.com/#uid=72N0C0kfdnT7qUxejAsoDgXsF6Q */
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+* {
+	.box-sizing;
+}
+
+.logo {
+	cursor: default;
+	display: inline-block;
+	text-decoration: none;
+
+	span:first-child {
+		.transition(color, 0.2s, linear);
+		.transition(text-shadow, 0.2s, linear);
+		color: @primary-color-darker;
+		text-shadow:
+			-1px -1px 0px white,
+			1px -1px 0px white,
+			-1px 1px 0px white,
+			 1px 1px 0px white;
+	}
+
+	span:last-child {
+		.transition(color, 0.2s, linear);
+		.transition(text-shadow, 0.2s, linear);
+		color: white;
+		text-shadow:
+			-1px -1px 0px @complement-color,
+			1px -1px 0px @complement-color,
+			-1px 1px 0px @complement-color,
+			 1px 1px 0px @complement-color;
+	}
+
+	&:hover {
+		span:first-child {
+			color: white;
+			text-shadow:
+				-1px -1px 0px @primary-color-darker,
+				1px -1px 0px @primary-color-darker,
+				-1px 1px 0px @primary-color-darker,
+				 1px 1px 0px @primary-color-darker;
+		}
+
+		span:last-child {
+			color: @complement-color;
+			text-shadow:
+				-1px -1px 0px white,
+				1px -1px 0px white,
+				-1px 1px 0px white,
+				 1px 1px 0px white;
+		}
+	}
+}
+
+.main {
+	.display-flex(column);
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	.header {
+		.order(1);
+		background: @primary-color-darker;
+
+		.header-content {
+			margin: 0 auto;
+			width: 960px;
+			overflow: hidden;
+
+			.logo {
+				padding: 10px 16px;
+				font-size: 1.5rem;
+			}
+
+			.nav {
+				.display-flex;
+				.clear;
+				float: right;
+
+				> li {
+					display: block;
+
+					> a {
+						display: block;
+						border-bottom: solid 4px transparent;
+						padding: 16px 12px 12px;
+						color: @primary-color-light;
+						text-decoration: none;
+
+						&.active,
+						&.active:hover,
+						&.active:visited {
+							cursor: default;
+							background-color: rgba(255, 255, 255, 0.1);
+							border-bottom-color: @complement-color;
+							color: white;
+						}
+
+						&:hover,
+						&:hover:visited {
+							color: white;
+						}
+
+						&:visited {
+							color: @primary-color-light;
+						}
+					}
+				}
+			}
+		}		
+	}
+
+	.body {
+		.order(2);
+		.flex(1);
+		overflow-y: auto;
+
+		.hero {
+			background-color: @primary-color-dark;
+
+			.content {
+				margin: 0 auto;
+				width: 960px;
+				padding: 48px 0 32px;
+				text-align: center;
+				color: @complement-color-light;
+				font-size: 1.25rem;
+
+				.logo {
+					font-size: 3.5rem;
+					padding-bottom: 12px;
+				}
+			}
+		}
+	}
+
+	.footer {
+		.order(3);
+	}
+}

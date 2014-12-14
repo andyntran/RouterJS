@@ -1,0 +1,53 @@
+#TrivialReporter {
+  position: absolute;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  background-color: white;
+  padding: 0;
+}
+#TrivialReporter a#JasmineReporterCloseBtn,
+#TrivialReporter a#JasmineReporterCloseBtn:hover {
+  color: white;
+  text-decoration: none;
+}
+#TrivialReporter .banner {
+  margin: 8px;
+}
+#TrivialReporter .runner {
+  margin: 5px 8px;
+}
+#TrivialReporter .suite {
+  margin: 5px 8px;
+}
+.jasmine_html-reporter {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  background-color: white;
+}
+.jasmine_html-reporter .banner .duration {
+  right: 64px;
+}
+.jasmine_html-reporter .results {
+  margin-bottom: 14px;
+}
+#JasmineReporterCloseBtn {
+  float: right;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 0 0 8px;
+  padding: 0px 8px 2px;
+  background-color: #880000;
+  text-decoration: none;
+  color: white;
+  font: normal 14px Arial;
+}
+#JasmineReporterCloseBtn:hover {
+  text-decoration: none;
+}
