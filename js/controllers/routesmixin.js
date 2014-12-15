@@ -26,7 +26,7 @@ define([
 						NavManager.createNavItem('HOME', '/', true),
 						NavManager.createNavItem('DOWNLOAD', '/download', true),
 						NavManager.createNavItem('TEST', '/dev/specs', true),
-						NavManager.createNavItem('GITHUB', 'https://github.com/andyntran/js-boilerplate')
+						NavManager.createNavItem('GITHUB', 'https://github.com/andyntran/RouterJS')
 					]
 				};
 			},
