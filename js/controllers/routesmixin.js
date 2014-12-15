@@ -39,7 +39,7 @@ define([
 					'/dev/specs/:reporter': this.runSpecsRoute,
 					'/error/:errorCode': this.errorRoute
 				}).start({
-					root: '/projects/routerjs/'
+					root: document.querySelector('#page-info').dataset.root
 				});
 			}
 		};
