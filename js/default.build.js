@@ -6,7 +6,7 @@
 	, baseUrl: "js/"
 	
 	// TODO: Changes "dir" value to preferred folder
-	, dir: "../../RouteJS-retail"
+	, dir: "../../RouterJS-retail"
 	// END TODO
 
 	, paths: {

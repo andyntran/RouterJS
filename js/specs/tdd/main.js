@@ -29,7 +29,7 @@ define([
 					});
 
 					it('should show a single "main" DOM that contains "header", "body", and "footer" DOMs', function () {
-						var $main = $(React.renderToString(main)),
+						var $main = $(React.renderToStaticMarkup(main)),
 							$children = $main.children();
 						expect($main.length).toEqual(1);
 						expect($children.filter('.header').length).toEqual(1);

@@ -1,6 +1,6 @@
 define([
 	  'react'
-	, '../../specs/specs-runner'
+	, 'specs/specs-runner'
 	, 'controllers/navmanager'
 ], function (React, SpecsRunner, NavManager) {
 	var RoutesMixin = {

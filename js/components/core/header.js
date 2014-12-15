@@ -1,7 +1,7 @@
 define([
 	'react',
 	'components/core/logo',
-	'components/nav/nav'
+	'components/core/nav'
 ], function (React, Logo, Nav) {
 
 	var HeaderClass = React.createClass({

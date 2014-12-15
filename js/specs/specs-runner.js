@@ -15,12 +15,12 @@ define(function () {
 
 				requirejs.config({
 					paths: {
-						  mockServices: '../specs/mock-services'
-						, sinon: '../ext/sinon-1.12.1/sinon'
-						, jasmine: '../ext/jasmine-2.1.3/js/jasmine'
-						, jasmineConsole: '../ext/jasmine-2.1.3/js/jasmine-console'
-						, jasmineHtml: '../ext/jasmine-2.1.3/js/jasmine-html'
-						, jasmineTeamcity: '../ext/jasmine-2.1.3/js/jasmine-teamcity'
+						  mockServices: 'specs/mock-services'
+						, sinon: '../ext/sinon-1.12.1/sinon.min'
+						, jasmine: '../ext/jasmine-2.1.3/js/jasmine.min'
+						, jasmineConsole: '../ext/jasmine-2.1.3/js/jasmine-console.min'
+						, jasmineHtml: '../ext/jasmine-2.1.3/js/jasmine-html.min'
+						, jasmineTeamcity: '../ext/jasmine-2.1.3/js/jasmine-teamcity.min'
 					}
 
 					, shim: {
@@ -54,8 +54,8 @@ define(function () {
 				, 'mockServices'
 
 				// TODO: Includes TDD spec files
-				, '../specs/tdd/main'
-				// , '../specs/tdd/routes'
+				, 'specs/tdd/main'
+				// , 'specs/tdd/routes'
 				// END TODO
 
 				// TODO: Includes BDD spec files
