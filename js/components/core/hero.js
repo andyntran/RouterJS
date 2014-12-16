@@ -14,7 +14,7 @@ define([
 					Logo({ key: 'logo' }),
 					React.DOM.div({
 						key: 'subtitle'
-					}, 'A SIMPLE AND POWERFUL CLIENT ROUTER')
+					}, 'A Simple Yet Powerful Client Router')
 				]));
 			}
 		});

@@ -42,15 +42,17 @@ define([
 				if (text && path) {
 					var navItem = {
 						text: text,
-						path: Router.normalizePath(path),
+						path: isInternal ? Router.normalizePath(path) : path,
 						isInternal: !!isInternal
 					};
 					navItem.execute = onNav.bind(null, navItem);
 					
-					if (!navPaths[navItem.path]) {
-						navPaths[navItem.path] = [];
+					if (isInternal) {
+						if (!navPaths[navItem.path]) {
+							navPaths[navItem.path] = [];
+						}
+						navPaths[navItem.path].push(navItem);
 					}
-					navPaths[navItem.path].push(navItem);
 				}
 
 				return navItem;

@@ -101,36 +101,35 @@ window.Router || (window.Router = (function () {
 				executeRoute = function () {
 					var matchVars = [],
 						sanitizedRoutePath = getCurrentRoutePath(),
+						fullRoutePath = config.root.source.substr(1) + sanitizedRoutePath.substr(1),
 						routeTokens = tokenizeRoutePath(sanitizedRoutePath),
 						routeNode = searchRouteNode(rootRouteNode, routeTokens, matchVars);
 
 					if (!routeNode || !routeNode.handler) {
 						window.setTimeout(function () {
-							if (config.onNavigateFail) { config.onNavigateFail(sanitizedRoutePath); }
-							if (config.onNavigateCompleted) { config.onNavigateCompleted(sanitizedRoutePath); }
+							if (config.onNavigateFail) { config.onNavigateFail(fullRoutePath); }
+							if (config.onNavigateCompleted) { config.onNavigateCompleted(fullRoutePath); }
 						}, 0);
 					} else {
 						window.setTimeout(function () {
 							routeNode.handler.apply(window, matchVars);
-							if (config.onNavigateSuccess) { config.onNavigateSuccess(sanitizedRoutePath); }
-							if (config.onNavigateCompleted) { config.onNavigateCompleted(sanitizedRoutePath); }
+							if (config.onNavigateSuccess) { config.onNavigateSuccess(fullRoutePath); }
+							if (config.onNavigateCompleted) { config.onNavigateCompleted(fullRoutePath); }
 						}, 0);
 					}
 				},
 
 				navigateRoute = function (routePath, isReplace) {
-					if (isConfigured()) {
-						var sanitizedRoutePath = sanitizeRoutePath(routePath);
+					var sanitizedRoutePath = sanitizeRoutePath(routePath).replace(config.root, '/');
 
-						if (config.mode === 'history') {
-							var funcName = isReplace ? 'replaceState' : 'pushState';
-							history[funcName](null, null, config.root.source.substr(1) + sanitizedRoutePath.substr(1));
-						} else {
-							location.hash = '#!' + sanitizedRoutePath;
-						}
-
-						executeRoute();
+					if (config.mode === 'history') {
+						var funcName = isReplace ? 'replaceState' : 'pushState';
+						history[funcName](null, null, config.root.source.substr(1) + sanitizedRoutePath.substr(1));
+					} else {
+						location.hash = '#!' + sanitizedRoutePath;
 					}
+
+					executeRoute();
 				},
 
 				log = function (message, type) {
@@ -191,12 +190,21 @@ window.Router || (window.Router = (function () {
 			};
 
 			this.navigate = function (routePath) {
-				navigateRoute(routePath);
+				if (!isConfigured()) {
+					log('Unable to navigate to path "' + routePath + '" because the router has not been configured through .start() yet.', 'ERROR');
+				} else {
+					navigateRoute(routePath);
+				}
 				return this;
 			};
 
 			this.normalizePath = function (routePath) {
-				return sanitizeRoutePath(routePath);
+				if (!isConfigured()) {
+					log('Unable to normalize the path "' + routePath + '" because the router has not been configured through .start() yet.', 'ERROR');
+					return null;
+				}
+
+				return config.root.source.substr(1) + sanitizeRoutePath(routePath).substr(1);
 			};
 		},
 

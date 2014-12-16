@@ -16,7 +16,7 @@ define([
 				}, [
 					Header({
 						key: 'header',
-						navSites: this.props.navSites
+						navSites: this.state.navSites
 					}),
 					Body({ key: 'body' }),
 					Footer({ key: 'footer' })

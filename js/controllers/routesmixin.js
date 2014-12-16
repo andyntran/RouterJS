@@ -20,18 +20,13 @@ define([
 
 			},
 
-			getDefaultProps: function() {
-				return { 
-					navSites: [
-						NavManager.createNavItem('HOME', '/', true),
-						NavManager.createNavItem('DOWNLOAD', '/download', true),
-						NavManager.createNavItem('TEST', '/dev/specs', true),
-						NavManager.createNavItem('GITHUB', 'https://github.com/andyntran/RouterJS')
-					]
+			getInitialState: function() {
+				return {
+					navSites: null
 				};
 			},
 
-			componentDidMount: function () {
+			componentWillMount: function () {
 				NavManager.routes({
 					'/': this.rootRoute,
 					'/download': this.downloadRoute,
@@ -39,7 +34,16 @@ define([
 					'/dev/specs/:reporter': this.runSpecsRoute,
 					'/error/:errorCode': this.errorRoute
 				}).start({
-					root: document.querySelector('#page-info').dataset.root
+					root: document.querySelector('meta[name="page-info"]').dataset.root
+				});
+
+				this.setState({
+					navSites: [
+						NavManager.createNavItem('HOME', '/', true),
+						NavManager.createNavItem('DOWNLOAD', '/download', true),
+						NavManager.createNavItem('TEST', '/dev/specs', true),
+						NavManager.createNavItem('GITHUB', '//github.com/andyntran/RouterJS')
+					]
 				});
 			}
 		};
