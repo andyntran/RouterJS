@@ -5,13 +5,15 @@
 html, body {
 	width: 100%;
 	height: 100%;
-	font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
-	font-weight: normal;
-	font-size: 14px;
+	font: normal 14px 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
 }
 
 * {
 	.box-sizing;
+}
+
+button {
+	font: inherit;
 }
 
 .logo {
@@ -20,8 +22,6 @@ html, body {
 	text-decoration: none;
 
 	span:first-child {
-		.transition(color, 0.2s, linear);
-		.transition(text-shadow, 0.2s, linear);
 		color: @primary-color-darker;
 		text-shadow:
 			-1px -1px 0px white,
@@ -31,8 +31,6 @@ html, body {
 	}
 
 	span:last-child {
-		.transition(color, 0.2s, linear);
-		.transition(text-shadow, 0.2s, linear);
 		color: white;
 		text-shadow:
 			-1px -1px 0px @complement-color,
@@ -129,14 +127,32 @@ html, body {
 				width: 960px;
 				padding: 48px 0 48px;
 				text-align: center;
-				color: white;
-				font-size: 2rem;
-				font-weight: lighter;
-
+				
 				.logo {
 					font-size: 3.5rem;
 					padding-bottom: 24px;
 					font-weight: normal;
+				}
+
+				.subtitle {
+					padding-bottom: 32px;
+					color: @complement-color-light;
+					font-size: 2rem;
+					font-weight: lighter;
+				}
+
+				.buttons {
+					button {
+						border: none;
+						background: @complement-color;
+						padding: 12px 24px;
+						color: white;
+						font-size: 1.5rem;
+
+						&:first-child {
+							margin-right: 32px;
+						}
+					}
 				}
 			}
 		}

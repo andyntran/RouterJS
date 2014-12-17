@@ -25,7 +25,7 @@ define([
 
 					it('Setup: initialize Main component', function () {
 						main = Main();
-						expect(main).not.toBeDefined();
+						expect(main).toBeDefined();
 					});
 
 					it('should show a single "main" DOM that contains "header", "body", and "footer" DOMs', function () {

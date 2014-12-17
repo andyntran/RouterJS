@@ -22,7 +22,7 @@ requirejs.config({
 		, jqueryExt: 'ext/jquery-ext'
 		, react: '../ext/react-0.12.1/react-with-addons.min'
 		, reactJSX: '../ext/react-0.12.1/JSXTransformer.min'
-		, router: '../ext/router-0.1.1/router.min'
+		, router: '../ext/router-0.1.1/router'
 
 		// TODO: Uncomments the following to set alias for additional libraries
 		// , jqueryui: [

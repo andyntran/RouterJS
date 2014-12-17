@@ -13,8 +13,20 @@ define([
 				}, [
 					Logo({ key: 'logo' }),
 					React.DOM.div({
-						key: 'subtitle'
-					}, 'A Simple Yet Powerful Client Router')
+						key: 'subtitle',
+						className: 'subtitle'
+					}, 'A Simple Yet Powerful Client Router'),
+					React.DOM.div({
+						key: 'buttons',
+						className: 'buttons'
+					}, [
+						React.DOM.button({
+							key: 'getStarted'
+						}, 'Get Started'),
+						React.DOM.button({
+							key: 'download'
+						}, 'Download RouterJS v0.1.1')
+					])
 				]));
 			}
 		});

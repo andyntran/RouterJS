@@ -14,6 +14,24 @@ window.Router || (window.Router = (function () {
 					return routePath && (routePath = routePath.toString().trim().replace(/^\/+|\/+$|\/[\w\-]+\.\w+$/g, '')) ? '/' + routePath + '/' : '/';
 				},
 
+				/**
+				 * Normalize a given route path by stripping out the root portion.
+				 * @param	routePath	The path to be normalized.
+				 * @return				The normalized route path with root portion stripped out.
+				 */
+				normalizeRoutePath = function (routePath) {
+					return sanitizeRoutePath(routePath).replace(config.root, '/');
+				},
+
+				/**
+				 * Resolve the full path of a given route path by normalizing it first and then prepending the root path.
+				 * @param	routePath	The path to be resolved.
+				 * @return				The fully resolved route path.
+				 */
+				resolveFullRoutePath = function (routePath) {
+					return config.root.source.substr(1) + normalizeRoutePath(routePath).substr(1);
+				},
+
 				tokenizeRoutePath = function (sanitizedRoutePath) {
 					return (sanitizedRoutePath = sanitizedRoutePath.substr(1, sanitizedRoutePath.length - 2)) ? sanitizedRoutePath.split('/') : null;
 				},
@@ -22,7 +40,7 @@ window.Router || (window.Router = (function () {
 					var routePath = sanitizeRoutePath(decodeURI(config.mode === 'history' ? location.pathname : location.hash.substr(2)));
 
 					if (config.mode === 'history') {
-						routePath = routePath.replace(config.root, '/');
+						routePath = normalizeRoutePath(routePath);
 					}
 
 					return routePath;
@@ -101,7 +119,7 @@ window.Router || (window.Router = (function () {
 				executeRoute = function () {
 					var matchVars = [],
 						sanitizedRoutePath = getCurrentRoutePath(),
-						fullRoutePath = config.root.source.substr(1) + sanitizedRoutePath.substr(1),
+						fullRoutePath = resolveFullRoutePath(sanitizedRoutePath),
 						routeTokens = tokenizeRoutePath(sanitizedRoutePath),
 						routeNode = searchRouteNode(rootRouteNode, routeTokens, matchVars);
 
@@ -120,13 +138,11 @@ window.Router || (window.Router = (function () {
 				},
 
 				navigateRoute = function (routePath, isReplace) {
-					var sanitizedRoutePath = sanitizeRoutePath(routePath).replace(config.root, '/');
-
 					if (config.mode === 'history') {
 						var funcName = isReplace ? 'replaceState' : 'pushState';
-						history[funcName](null, null, config.root.source.substr(1) + sanitizedRoutePath.substr(1));
+						history[funcName](null, null, resolveFullRoutePath(routePath));
 					} else {
-						location.hash = '#!' + sanitizedRoutePath;
+						location.hash = '#!' + normalizeRoutePath(routePath);
 					}
 
 					executeRoute();
@@ -198,13 +214,13 @@ window.Router || (window.Router = (function () {
 				return this;
 			};
 
-			this.normalizePath = function (routePath) {
+			this.resolveFullPath = function (routePath) {
 				if (!isConfigured()) {
 					log('Unable to normalize the path "' + routePath + '" because the router has not been configured through .start() yet.', 'ERROR');
 					return null;
 				}
 
-				return config.root.source.substr(1) + sanitizeRoutePath(routePath).substr(1);
+				return resolveFullRoutePath(routePath);
 			};
 		},
 

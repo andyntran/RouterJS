@@ -42,7 +42,7 @@ define([
 				if (text && path) {
 					var navItem = {
 						text: text,
-						path: isInternal ? Router.normalizePath(path) : path,
+						path: isInternal ? Router.resolveFullPath(path) : path,
 						isInternal: !!isInternal
 					};
 					navItem.execute = onNav.bind(null, navItem);
