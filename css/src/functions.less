@@ -35,6 +35,18 @@
 // ---------------------------------------------------------------------------------
 
 
+// TEXT STROKE ---------------------------------------------------------------------
+.text-stroke(@thickness, @color) {
+	// -webkit-text-stroke: @thickness @color;
+	text-shadow:
+			-@thickness -@thickness 0px @color,
+			 @thickness -@thickness 0px @color,
+			-@thickness  @thickness 0px @color,
+			 @thickness  @thickness 0px @color;
+}
+// ---------------------------------------------------------------------------------
+
+
 // DISPLAY FLEX --------------------------------------------------------------------
 .display-flex(@flex-direction: row) {
 	display: -webkit-box;	/* OLD - iOS 6-, Safari 3.1-6 */

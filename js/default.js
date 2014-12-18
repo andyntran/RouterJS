@@ -43,7 +43,7 @@ requirejs.config({
 	// Defines dependencies (effectively sets the loading orders)
 	, shim: {
 		  'jqueryExt': ['jquery']
-		, 'components/core/main': [
+		, 'components/core/app': [
 			  'modernizr'
 			, 'jquery'
 			, 'jqueryExt'
@@ -65,10 +65,10 @@ requirejs.config({
 	}
 });
 
-// Register main component
+// Register main app component
 require([
 	'react', 
-	'components/core/main'
-], function (React, Main) {
-	React.render(Main(), document.body);
+	'components/core/app'
+], function (React, App) {
+	React.render(App(), document.body);
 });

@@ -1,19 +1,53 @@
 @import "functions.less";
 @import "colors.less";
-/* http://paletton.com/#uid=72N0C0kfdnT7qUxejAsoDgXsF6Q */
 
 html, body {
 	width: 100%;
 	height: 100%;
-	font: normal 14px 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
+	font: normal 16px 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
 }
 
 * {
 	.box-sizing;
+
+	&:focus {
+		outline: none;
+	}
 }
 
-button {
+h1 {
+	font-size: 2rem;
+	margin-bottom: 24px;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-bottom: 16px;
+}
+
+h1, h2, h3 {
+	color: @complement-color-dark;
+	font-weight: bold;
+}
+
+button, .button {
+	.box-shadow(1px, 1px, 2px, black);
+	display: inline-block;	
+	border: none;
+	background: @complement-color-dark;
+	color: white;
 	font: inherit;
+	text-decoration: none;
+
+	&:hover,
+	&:active {
+		background: @complement-color-light;
+		color: @complement-color-dark;
+	}
+
+	&:active {		
+		.box-shadow(0, 0);
+	}
 }
 
 .logo {
@@ -23,44 +57,28 @@ button {
 
 	span:first-child {
 		color: @primary-color-darker;
-		text-shadow:
-			-1px -1px 0px white,
-			1px -1px 0px white,
-			-1px 1px 0px white,
-			 1px 1px 0px white;
+		.text-stroke(1px, white);
 	}
 
 	span:last-child {
 		color: white;
-		text-shadow:
-			-1px -1px 0px @complement-color,
-			1px -1px 0px @complement-color,
-			-1px 1px 0px @complement-color,
-			 1px 1px 0px @complement-color;
+		.text-stroke(1px, @complement-color);
 	}
 
 	&:hover {
 		span:first-child {
 			color: white;
-			text-shadow:
-				-1px -1px 0px @primary-color-darker,
-				1px -1px 0px @primary-color-darker,
-				-1px 1px 0px @primary-color-darker,
-				 1px 1px 0px @primary-color-darker;
+			.text-stroke(1px, @primary-color-darker);
 		}
 
 		span:last-child {
 			color: @complement-color;
-			text-shadow:
-				-1px -1px 0px white,
-				1px -1px 0px white,
-				-1px 1px 0px white,
-				 1px 1px 0px white;
+			.text-stroke(1px, white);
 		}
 	}
 }
 
-.main {
+.app {
 	.header {
 		position: fixed;
 		top: 0;
@@ -118,42 +136,57 @@ button {
 
 	.body {
 		padding-top: 40px;
+	}
+}
 
-		.hero {
-			background-color: @primary-color-dark;
+.home {
+	.hero {
+		background-color: @primary-color-dark;
 
-			.content {
-				margin: 0 auto;
-				width: 960px;
-				padding: 48px 0 48px;
-				text-align: center;
-				
-				.logo {
-					font-size: 3.5rem;
-					padding-bottom: 24px;
-					font-weight: normal;
-				}
+		.content {
+			margin: 0 auto;
+			width: 960px;
+			padding: 48px 0 48px;
+			text-align: center;
+			
+			.logo {
+				font-size: 3.5rem;
+				padding-bottom: 8px;
+				font-weight: normal;
+			}
 
-				.subtitle {
-					padding-bottom: 32px;
-					color: @complement-color-light;
-					font-size: 2rem;
+			.subtitle {
+				padding-bottom: 48px;
+				color: white;
+				font-weight: lighter;
+				font-size: 1.5rem;
+			}
+
+			.buttons {
+				.button {
+					padding: 12px 24px;
 					font-weight: lighter;
-				}
+					font-size: 1.5rem;
 
-				.buttons {
-					button {
-						border: none;
-						background: @complement-color;
-						padding: 12px 24px;
-						color: white;
-						font-size: 1.5rem;
-
-						&:first-child {
-							margin-right: 32px;
-						}
+					&:first-child {
+						margin-right: 32px;
 					}
 				}
+			}
+		}
+	}
+
+	.marketing {
+		.display-flex;
+		margin: 48px auto 0;
+		width: 960px;
+
+		.marketing-item {
+			.flex(1);
+			margin-left: 48px;
+
+			&:first-child {
+				margin-left: 0px;
 			}
 		}
 	}

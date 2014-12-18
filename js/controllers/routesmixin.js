@@ -1,28 +1,34 @@
 define([
-	  'react'
-	, 'specs/specs-runner'
-	, 'controllers/navmanager'
-], function (React, SpecsRunner, NavManager) {
+	'react',
+	'specs/specs-runner',
+	'controllers/navmanager',
+	'components/home/home'
+], function (React, SpecsRunner, NavManager, Home) {
 	var RoutesMixin = {
 			rootRoute: function () {
-
+				this.setState({
+					body: Home
+				});
 			},
 
 			downloadRoute: function () {
-
+				this.setState({
+					body: null
+				});
 			},
 
 			runSpecsRoute: function (reporter) {
-				SpecsRunner.execute(reporter);
+				SpecsRunner.execute(reporter);				
 			},
 
-			errorRoute: function () {
+			errorRoute: function (errorCode) {
 
 			},
 
 			getInitialState: function() {
 				return {
-					navSites: null
+					navSites: null,
+					body: null
 				};
 			},
 

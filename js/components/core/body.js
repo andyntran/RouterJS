@@ -1,15 +1,12 @@
 define([
-	'react',
-	'components/core/hero'
-], function (React, Hero) {
+	'react'
+], function (React) {
 
 	var BodyClass = React.createClass({
 			render: function () {
 				return React.DOM.div({
 					className: 'body'
-				}, [
-					Hero({ key: 'hero' })
-				]);
+				}, this.props.children);
 			}
 		});
 

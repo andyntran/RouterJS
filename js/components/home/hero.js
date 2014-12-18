@@ -21,10 +21,14 @@ define([
 						className: 'buttons'
 					}, [
 						React.DOM.button({
-							key: 'getStarted'
+							key: 'getStarted',
+							className: 'button'
 						}, 'Get Started'),
-						React.DOM.button({
-							key: 'download'
+						React.DOM.a({
+							key: 'download',
+							className: 'button',
+							href: '//github.com/andyntran/RouterJS/releases/tag/0.1.1',
+							target: '_blank'
 						}, 'Download RouterJS v0.1.1')
 					])
 				]));

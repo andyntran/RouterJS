@@ -54,7 +54,7 @@ define(function () {
 				, 'mockServices'
 
 				// TODO: Includes TDD spec files
-				, 'specs/tdd/main'
+				, 'specs/tdd/app'
 				// , 'specs/tdd/routes'
 				// END TODO
 
