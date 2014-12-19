@@ -12,10 +12,13 @@ define([
 					key: 'content',
 					className: 'header-content'
 				}, [
-					Logo({ key: 'logo' }),
+					Logo({ 
+						key: 'logo',
+						link: this.props.homeLink
+					}),
 					Nav({
 						key: 'nav',
-						links: this.props.navSites
+						links: this.props.navLinks
 					})
 				]));
 			}

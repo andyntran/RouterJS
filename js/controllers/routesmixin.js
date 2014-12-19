@@ -17,6 +17,12 @@ define([
 				});
 			},
 
+			docsRoute: function () {
+				this.setState({
+					body: null
+				});
+			},
+
 			runSpecsRoute: function (reporter) {
 				SpecsRunner.execute(reporter);				
 			},
@@ -27,7 +33,9 @@ define([
 
 			getInitialState: function() {
 				return {
-					navSites: null,
+					homeLink: null,
+					navLinks: null,
+					activePage: null,
 					body: null
 				};
 			},
@@ -35,6 +43,7 @@ define([
 			componentWillMount: function () {
 				NavManager.routes({
 					'/': this.rootRoute,
+					'/docs': this.docsRoute,
 					'/download': this.downloadRoute,
 					'/dev/specs': this.runSpecsRoute,
 					'/dev/specs/:reporter': this.runSpecsRoute,
@@ -44,13 +53,19 @@ define([
 				});
 
 				this.setState({
-					navSites: [
-						NavManager.createNavItem('HOME', '/', true),
+					homeLink: NavManager.createNavItem('HOME', '/', true),
+					navLinks: [
+						NavManager.createNavItem('DOCS', '/docs', true),
 						NavManager.createNavItem('DOWNLOAD', '/download', true),
 						NavManager.createNavItem('TEST', '/dev/specs', true),
 						NavManager.createNavItem('GITHUB', '//github.com/andyntran/RouterJS')
 					]
 				});
+			},
+
+			componentWillUnmount: function () {
+				NavManager.disposeNavItem(this.state.homeLink);
+				NavManager.disposeNavItems(this.state.navLinks);
 			}
 		};
 

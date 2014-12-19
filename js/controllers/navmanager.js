@@ -58,6 +58,27 @@ define([
 				return navItem;
 			};
 
+			this.disposeNavItem = function (navItem) {
+				if (navItem) {
+					navItem.execute = null;
+				}
+
+				if (navItem.isInternal && !navPaths[navItem.path]) {
+					var index = navPaths[navItem.path].indexOf(navItem);
+					if (index >= 0) {
+						navPaths[navItem.path].splice(index, 1);
+					}
+				}
+			},
+
+			this.disposeNavItems = function (navItems) {
+				if (navItems && navItems.length) {
+					for (var i = 0; i < navItems.length; ++i) {
+						this.disposeNavItem(navItems[i]);
+					}
+				}
+			}
+
 			this.routes = function (routesObj, callback) {
 				Router.routes(routesObj, callback);
 				return this;

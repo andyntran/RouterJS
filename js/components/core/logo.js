@@ -24,6 +24,7 @@ define([
 				return this.props.link ?
 					React.DOM.a({ 
 						className: 'logo',
+						href: this.props.link.path,
 						onClick: this.onClicked
 					}, children) : 
 					React.DOM.span({ 

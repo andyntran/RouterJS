@@ -15,7 +15,8 @@ define([
 				}, [
 					Header({
 						key: 'header',
-						navSites: this.state.navSites
+						homeLink: this.state.homeLink,
+						navLinks: this.state.navLinks
 					}),
 					Body({ 
 						key: 'body' 

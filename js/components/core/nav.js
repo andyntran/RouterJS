@@ -18,16 +18,24 @@ define([
 			},
 
 			getInitialState: function () {
-				return { activeIndex: 0 };
+				return { activeIndex: -1 };
 			},
 
 			componentWillMount: function () {
 				if (this.props.links && this.props.links.length) {
-					var me = this;
 					for (var i = 0; i < this.props.links.length; ++i) {
 						var link = this.props.links[i];
 						link.index = i;
-						link.onSuccess = me.onNavItemExecuteSuccess.bind(null, link);
+						link.onSuccess = this.onNavItemExecuteSuccess.bind(null, link);
+					}
+				}
+			},
+
+			componentWillUnmount: function () {
+				if (this.props.links && this.props.links.length) {
+					for (var i = 0; i < this.props.links.length; ++i) {
+						var link = this.props.links[i];
+						link.onSuccess = null;
 					}
 				}
 			},
@@ -49,7 +57,11 @@ define([
 			renderNavItems: function () {
 				if (!this.props.links || !this.props.links.length) { return null; }
 
-				return this.props.links.map(this.renderNavItem);
+				var children = [];
+				for (var i = 0; i < this.props.links.length; ++i) {
+					children.push(this.renderNavItem(this.props.links[i]));
+				}
+				return children;
 			},
 
 			render: function () {
