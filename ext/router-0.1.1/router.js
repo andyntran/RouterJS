@@ -6,41 +6,71 @@ window.Router || (window.Router = (function () {
 			var rootRouteNode = {},
 				config = null,
 
+				/**
+				 * @private
+				 * Indicate whether the Router is configured or not.
+				 * @return {Boolean} True if the Router is configured; otherwise, false.
+				 */
 				isConfigured = function () {
 					return !!config;
 				},
 
+				/**
+				 * @private
+				 * Sanitize a given route path to make sure the path is properly formed with a node string enclosed between slashes.
+				 * i.e. /node1/node2/node3/
+				 * @param  {string} routePath The route path to be sanitized.
+				 * @return {string} A sanitized route path.
+				 */
 				sanitizeRoutePath = function (routePath) {
 					return routePath && (routePath = routePath.toString().trim().replace(/^\/+|\/+$|\/[\w\-]+\.\w+$/g, '')) ? '/' + routePath + '/' : '/';
 				},
 
 				/**
+				 * @private
 				 * Normalize a given route path by stripping out the root portion.
-				 * @param	routePath	The path to be normalized.
-				 * @return				The normalized route path with root portion stripped out.
+				 * @param  {string} routePath The path to be normalized.
+				 * @return {string} A normalized route path with root portion stripped out.
 				 */
 				normalizeRoutePath = function (routePath) {
 					return sanitizeRoutePath(routePath).replace(config.root, '/');
 				},
 
 				/**
+				 * @private
 				 * Resolve the full path of a given route path by normalizing it first and then prepending the root path.
-				 * @param	routePath	The path to be resolved.
-				 * @return				The fully resolved route path.
+				 * @param  {string} routePath The path to be resolved.
+				 * @return {string} A fully resolved route path.
 				 */
 				resolveFullRoutePath = function (routePath) {
 					return config.root.source.substr(1) + normalizeRoutePath(routePath).substr(1);
 				},
 
+				/**
+				 * @private
+				 * Tokenize a given sanitized route path into an array of string nodes.
+				 * @param  {string} sanitizedRoutePath The sanitized route path to be tokenized.
+				 * @return {Array} An array of string nodes.
+				 */
 				tokenizeRoutePath = function (sanitizedRoutePath) {
 					return (sanitizedRoutePath = sanitizedRoutePath.substr(1, sanitizedRoutePath.length - 2)) ? sanitizedRoutePath.split('/') : null;
 				},
 
-				getCurrentRoutePath = function () {
+				/**
+				 * @private
+				 * Get the current route path from either the URL or the shebang (#!) depending on configuration mode ('history' or 'hash').
+				 * @param  {string} isFullPath True should the function return a fully resolved path; otherwise, false.
+				 * @return {string} Either a fully resolved or normalized current path.
+				 */
+				getCurrentRoutePath = function (isFullPath) {
 					var routePath = sanitizeRoutePath(decodeURI(config.mode === 'history' ? location.pathname : location.hash.substr(2)));
 
 					if (config.mode === 'history') {
-						routePath = normalizeRoutePath(routePath);
+						if (isFullPath) {
+							routePath = resolveFullRoutePath(routePath);
+						} else {
+							routePath = normalizeRoutePath(routePath);							
+						}
 					}
 
 					return routePath;
@@ -118,21 +148,20 @@ window.Router || (window.Router = (function () {
 
 				executeRoute = function () {
 					var matchVars = [],
-						sanitizedRoutePath = getCurrentRoutePath(),
-						fullRoutePath = resolveFullRoutePath(sanitizedRoutePath),
-						routeTokens = tokenizeRoutePath(sanitizedRoutePath),
+						normalizedRoutePath = getCurrentRoutePath(),
+						routeTokens = tokenizeRoutePath(normalizedRoutePath),
 						routeNode = searchRouteNode(rootRouteNode, routeTokens, matchVars);
 
 					if (!routeNode || !routeNode.handler) {
 						window.setTimeout(function () {
-							if (config.onNavigateFail) { config.onNavigateFail(fullRoutePath); }
-							if (config.onNavigateCompleted) { config.onNavigateCompleted(fullRoutePath); }
+							if (config.onNavigateFail) { config.onNavigateFail(); }
+							if (config.onNavigateCompleted) { config.onNavigateCompleted(); }
 						}, 0);
 					} else {
 						window.setTimeout(function () {
-							routeNode.handler.apply(window, matchVars);
-							if (config.onNavigateSuccess) { config.onNavigateSuccess(fullRoutePath); }
-							if (config.onNavigateCompleted) { config.onNavigateCompleted(fullRoutePath); }
+							routeNode.handler.apply(null, matchVars);
+							if (config.onNavigateSuccess) { config.onNavigateSuccess(); }
+							if (config.onNavigateCompleted) { config.onNavigateCompleted(); }
 						}, 0);
 					}
 				},
@@ -167,10 +196,9 @@ window.Router || (window.Router = (function () {
 					config.log(message, 'error');
 				};
 
-			this.start = function (options) {
-				if (!isConfigured()) {
+			this.config = function (options) {
+				if (options) {
 					if (!config) { config = {}; }
-					if (!options) { options = {}; }
 					
 					config.mode = (options.mode === 'hash' || !history.pushState) ? 'hash' : 'history';
 					config.root = new RegExp('^' + (options.root ? sanitizeRoutePath(options.root) : '/'), !options.caseSensitive ? 'i' : null);
@@ -182,7 +210,17 @@ window.Router || (window.Router = (function () {
 					if (options.onNavigateCompleted) { config.onNavigateCompleted = options.onNavigateCompleted; }
 
 					window.addEventListener(config.mode === 'history' ? 'popstate' : 'hashchange', executeRoute);
+				}
 
+				return this;
+			};
+
+			this.start = function (options) {
+				this.config(options);
+
+				if (!isConfigured()) {
+					log('Unable to start because the Router has not been configured yet.', 'ERROR');
+				} else {
 					executeRoute();
 				}
 
@@ -207,16 +245,39 @@ window.Router || (window.Router = (function () {
 
 			this.navigate = function (routePath) {
 				if (!isConfigured()) {
-					log('Unable to navigate to path "' + routePath + '" because the router has not been configured through .start() yet.', 'ERROR');
+					log('Unable to navigate to path "' + routePath + '" because the Router has not been configured yet.', 'ERROR');
 				} else {
 					navigateRoute(routePath);
 				}
 				return this;
 			};
 
+			/**
+			 * Get the current route path from either the URL or the shebang (#!) depending on configuration mode ('history' or 'hash').
+			 * @param  {string} isFullPath True should the function return a fully resolved path; otherwise, false.
+			 * @return {string} Either a fully resolved or normalized current path.
+			 */
+			this.getCurrentPath = function (isFullPath) {
+				if (!isConfigured()) {
+					log('Unable to get the current path because the Router has not been configured yet.', 'ERROR');
+					return null;
+				}
+
+				return getCurrentRoutePath(isFullPath);
+			};
+
+			this.normalizePath = function (routePath) {
+				if (!isConfigured()) {
+					log('Unable to normalize the path "' + routePath + '" because the Router has not been configured yet.', 'ERROR');
+					return null;
+				}
+
+				return normalizeRoutePath(routePath)
+			};
+
 			this.resolveFullPath = function (routePath) {
 				if (!isConfigured()) {
-					log('Unable to normalize the path "' + routePath + '" because the router has not been configured through .start() yet.', 'ERROR');
+					log('Unable to resolve the full path of "' + routePath + '" because the Router has not been configured yet.', 'ERROR');
 					return null;
 				}
 

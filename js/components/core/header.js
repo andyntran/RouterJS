@@ -18,7 +18,8 @@ define([
 					}),
 					Nav({
 						key: 'nav',
-						links: this.props.navLinks
+						links: this.props.navLinks,
+						currentPath: this.props.currentPath
 					})
 				]));
 			}

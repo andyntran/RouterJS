@@ -3,54 +3,29 @@ define([
 ], function (React) {
 
 	var ClassSet = React.addons.classSet,
+
 		NavClass = React.createClass({
-			onNavItemClicked: function (link, evt) {
-				if (this.state.activeIndex !== link.index) {
+
+			onNavItemClicked: function (link, isActive, evt) {
+				if (!isActive) {
 					link.execute();
 				}
 				evt.preventDefault();
 			},
 
-			onNavItemExecuteSuccess: function(link) {
-				if (this.state.activeIndex !== link.index) {
-					this.setState({ activeIndex: link.index });
-				}
-			},
+			renderNavItem: function (link, index) {
+				var isActive = link.path === this.props.currentPath;
 
-			getInitialState: function () {
-				return { activeIndex: -1 };
-			},
-
-			componentWillMount: function () {
-				if (this.props.links && this.props.links.length) {
-					for (var i = 0; i < this.props.links.length; ++i) {
-						var link = this.props.links[i];
-						link.index = i;
-						link.onSuccess = this.onNavItemExecuteSuccess.bind(null, link);
-					}
-				}
-			},
-
-			componentWillUnmount: function () {
-				if (this.props.links && this.props.links.length) {
-					for (var i = 0; i < this.props.links.length; ++i) {
-						var link = this.props.links[i];
-						link.onSuccess = null;
-					}
-				}
-			},
-
-			renderNavItem: function (link) {
 				return React.DOM.li({
-						key: 'li' + link.index
+						key: 'li_' + index
 					}, React.DOM.a({
 						key: 'a',
-						href: link.path,
-						target: link.isInternal ? null : '_blank',
+						href: link.fullPath,
+						target: !link.isInternal ? '_blank' : null,
 						className: ClassSet({
-							'active': link.index === this.state.activeIndex
+							'active': isActive
 						}),
-						onClick: link.isInternal ? this.onNavItemClicked.bind(this, link) : null
+						onClick: link.isInternal ? this.onNavItemClicked.bind(null, link, isActive) : null
 					}, link.text));
 			},
 
@@ -59,7 +34,7 @@ define([
 
 				var children = [];
 				for (var i = 0; i < this.props.links.length; ++i) {
-					children.push(this.renderNavItem(this.props.links[i]));
+					children.push(this.renderNavItem(this.props.links[i], i));
 				}
 				return children;
 			},

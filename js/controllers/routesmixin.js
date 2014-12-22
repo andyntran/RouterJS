@@ -1,71 +1,60 @@
 define([
-	'react',
 	'specs/specs-runner',
-	'controllers/navmanager',
 	'components/home/home'
-], function (React, SpecsRunner, NavManager, Home) {
+], function (SpecsRunner, Home) {
 	var RoutesMixin = {
-			rootRoute: function () {
-				this.setState({
-					body: Home
-				});
+			
+			routes: {
+				
+				home: function () {
+					this.setState({
+						currentPath: Router.getCurrentPath(),
+						bodyContent: Home
+					});
+				},
+
+				docs: function () {
+					this.setState({
+						currentPath: Router.getCurrentPath(),
+						bodyContent: null
+					});
+				},
+
+				download: function () {
+					this.setState({
+						currentPath: Router.getCurrentPath(),
+						bodyContent: null
+					});
+				},
+
+				test: function (reporter) {
+					SpecsRunner.execute(reporter);
+				},
+
+				error: function (errorCode) {
+					this.setState({
+						currentPath: Router.getCurrentPath(),
+						bodyContent: null
+					});
+				}
 			},
 
-			downloadRoute: function () {
-				this.setState({
-					body: null
-				});
-			},
-
-			docsRoute: function () {
-				this.setState({
-					body: null
-				});
-			},
-
-			runSpecsRoute: function (reporter) {
-				SpecsRunner.execute(reporter);				
-			},
-
-			errorRoute: function (errorCode) {
-
-			},
-
-			getInitialState: function() {
+			getInitialState: function () {
 				return {
-					homeLink: null,
-					navLinks: null,
-					activePage: null,
-					body: null
+					currentPath: null,
+					bodyContent: null
 				};
 			},
 
 			componentWillMount: function () {
-				NavManager.routes({
-					'/': this.rootRoute,
-					'/docs': this.docsRoute,
-					'/download': this.downloadRoute,
-					'/dev/specs': this.runSpecsRoute,
-					'/dev/specs/:reporter': this.runSpecsRoute,
-					'/error/:errorCode': this.errorRoute
-				}).start({
-					root: document.querySelector('meta[name="page-info"]').dataset.root
+				Router.routes({
+					'/': this.routes.home.bind(this),
+					'/docs': this.routes.docs.bind(this),
+					'/download': this.routes.download.bind(this),
+					'/test': this.routes.test.bind(this),
+					'/test/:reporter': this.routes.test.bind(this),
+					'/error/:errorCode': this.routes.error.bind(this)
 				});
-
-				this.setState({
-					homeLink: NavManager.createNavItem('HOME', '/', true),
-					navLinks: [
-						NavManager.createNavItem('DOCS', '/docs', true),
-						NavManager.createNavItem('DOWNLOAD', '/download', true),
-						NavManager.createNavItem('TEST', '/dev/specs', true),
-						NavManager.createNavItem('GITHUB', '//github.com/andyntran/RouterJS')
-					]
-				});
-			},
-
-			componentWillUnmount: function () {
-				NavManager.disposeNavItem(this.state.homeLink);
-				NavManager.disposeNavItems(this.state.navLinks);
 			}
 		};
 
