@@ -1,6 +1,13 @@
 @import "functions.less";
 @import "colors.less";
 
+@page-width: 960px;
+
+@content-padding-large: 48px;
+@content-padding: 24px;
+@content-padding-small: 16px;
+@content-padding-smaller: 8px;
+
 html, body {
 	width: 100%;
 	height: 100%;
@@ -34,7 +41,7 @@ button, .button {
 	.box-shadow(1px, 1px, 2px, black);
 	display: inline-block;	
 	border: none;
-	background: @complement-color-dark;
+	background: @complement-color;
 	color: white;
 	font: inherit;
 	text-decoration: none;
@@ -93,7 +100,7 @@ a.logo {
 
 		.header-content {
 			margin: 0 auto;
-			width: 960px;
+			width: @page-width;
 			overflow: hidden;
 
 			.logo {
@@ -150,8 +157,8 @@ a.logo {
 
 		.content {
 			margin: 0 auto;
-			width: 960px;
-			padding: 48px 0 48px;
+			width: @page-width;
+			padding: @content-padding 0;
 			text-align: center;
 			
 			.logo {
@@ -161,7 +168,7 @@ a.logo {
 			}
 
 			.subtitle {
-				padding-bottom: 48px;
+				padding-bottom: @content-padding;
 				color: white;
 				font-weight: lighter;
 				font-size: 1.5rem;
@@ -183,12 +190,13 @@ a.logo {
 
 	.marketing {
 		.display-flex;
-		margin: 48px auto 0;
-		width: 960px;
+		margin: 0 auto;
+		width: @page-width;
+		padding: @content-padding 0;
 
 		.marketing-item {
 			.flex(1);
-			margin-left: 48px;
+			margin-left: @content-padding;
 
 			&:first-child {
 				margin-left: 0px;
@@ -196,6 +204,29 @@ a.logo {
 		}
 	}
 
-	.footer {
+	hr {
+		margin: 0 auto;
+		width: 25%;
+		height: 0;
+		border-top: solid 1px gray;
 	}
 }
+
+.footer {
+	.display-flex;
+	margin: 0 auto;
+	width: @page-width;
+	padding-top: @content-padding-small;
+	font-weight: bold;
+	font-size: 0.8rem;
+
+	.info {
+		.flex(1);
+	}
+
+	.copyright {
+
+	}
+}
+
+@import url(/projects/routerjs/css/default-tablet.min.css) and (max-width: 960px);

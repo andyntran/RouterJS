@@ -1,8 +1,9 @@
 define([
 	'react',
 	'components/home/hero',
-	'components/home/marketing'
-], function (React, Hero, Marketing) {
+	'components/home/marketing',
+	'components/core/footer'
+], function (React, Hero, Marketing, Footer) {
 
 	var HomeClass = React.createClass({
 			render: function () {
@@ -10,7 +11,9 @@ define([
 					className: 'home'
 				}, [
 					Hero({ key: 'hero' }),
-					Marketing({ key: 'marketing' })
+					Marketing({ key: 'marketing' }),
+					React.DOM.hr({ key: 'divider' }),
+					Footer({ key: 'footer' })
 				]);
 			}
 		});

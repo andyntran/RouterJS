@@ -10,11 +10,15 @@ define([
 				return {
 					items: [
 						{
+							title: 'WHY ROUTERJS?',
+							text: 'Inspired by BackboneJS and AngularJS, RouterJS is an experiment to create a robust Javascript Router that works with React framework or any other framework of your choice.'
+						},
+						{
 							title: 'SIMPLICITY',
 							text: 'RouterJS provides simple APIs that can be easily integrated into any framework such as React, EmberJS, AngularJS, Backbone, etc.'
 						}, {
-							title: 'HISTORY vs SHEBANG (#!)',
-							text: 'RouterJS supports both and allows you to work with either history API or "shebang" configuration.',
+							title: 'HISTORY or SHEBANG (#!)',
+							text: 'RouterJS supports both. You can choose to work with either history API or "shebang" configuration.',
 							tooltip: 'A few years back, Googlebots started to recognize "shebang" (#!) syntax as a valid URL. With the rise of HTML5, browser history API provides a more intuitive approach for dynamic URL.'
 						}
 					]
